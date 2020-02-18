@@ -15,7 +15,6 @@ public class LeetCode {
             }
             map.put(nums[i], i);
         }
-        
         return null;
     }
 }
