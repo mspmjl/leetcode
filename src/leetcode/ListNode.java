@@ -1,3 +1,5 @@
+package leetcode;
+
 /**
  * Created by Miaojiale on 2020/3/1.
  */

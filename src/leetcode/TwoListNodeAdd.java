@@ -1,3 +1,5 @@
+package leetcode;
+
 /**
  * Created by Miaojiale on 2020/3/1.
  */
@@ -34,10 +36,10 @@ public class TwoListNodeAdd {
     public static void main(String[] args) {
         ListNode l1 = new ListNode(3);
         l1.next = new ListNode(5);
-//        l1.next.next = new ListNode(9);
+//        l1.next.next = new leetcode.ListNode(9);
         ListNode l2 = new ListNode(2);
-//        l2.next = new ListNode(6);
-//        l2.next.next = new ListNode(7);
+//        l2.next = new leetcode.ListNode(6);
+//        l2.next.next = new leetcode.ListNode(7);
         System.out.println(add(l1,l2));
     }
 
