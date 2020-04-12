@@ -1,6 +1,6 @@
 package leetcode;
 
-import java.util.HashMap;
+import java.util.*;
 
 /**
  * Created by Miaojiale on 2020/2/18.
@@ -18,5 +18,109 @@ public class LeetCode {
             map.put(nums[i], i);
         }
         return null;
+    }
+
+    // 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+    public static int lengthOfLongestSubstring(String s) {
+        // 我的
+        int length = 0;
+        int start = 0;
+        int end = 0;
+        String maxS = "";
+        while (end < s.length()) {
+            char c = s.charAt(end);
+            if (maxS.contains(String.valueOf(c))) {
+                start += maxS.indexOf(c) + 1;
+            }
+            end++;
+            maxS = s.substring(start, end);
+            length = Math.max(length, maxS.length());
+        }
+        // 别人的
+//        int n = s.length(), ans = 0;
+//        Map<Character, Integer> map = new HashMap<>();//key出现的字符，value对应的最新的位置
+//        // try to extend the range [i, j]
+//        for (int end = 0, start = 0; end < n; end++) {
+//            if (map.containsKey(s.charAt(end))) {
+//                start = Math.max(map.get(s.charAt(end)) + 1, start);//由于重复的坐标不知道在start的前方还是后方，所以要取个最大值
+//            }
+//            ans = Math.max(ans, end - start + 1);
+//            map.put(s.charAt(end), end);
+//        }
+//        return ans;
+        return length;
+    }
+
+    // Z 字形变换
+/*    输入: s = "LEETCODEISHIRING", numRows = 4
+    输出: "LDREOEIIECIHNTSG"
+    解释:
+
+    L     D     R
+    E   O E   I I
+    E C   I H   N
+    T     S     G */
+    public String convert(String s, int numRows) {
+        String out = "";
+        if (numRows == 1) {
+            return s;
+        } else if (s != null) {
+            Map<Integer, List<String>> map = new HashMap<>();
+            int cycle = numRows * 2 - 3;
+            Integer count = 0;
+            for (int i = 0; i < s.length(); i++) {
+                int index = count < numRows ? count : cycle + 1 - count;
+                List<String> strings = map.get(index);
+                if (strings == null) {
+                    strings = new ArrayList<>();
+                    map.put(index, strings);
+                }
+                strings.add(String.valueOf(s.charAt(i)));
+                count++;
+                if (count > cycle) {
+                    count = 0;
+                }
+            }
+            Set<Map.Entry<Integer, List<String>>> entries = map.entrySet();
+
+            for (Map.Entry<Integer, List<String>> entry : entries) {
+                List<String> value = entry.getValue();
+                if (value != null) {
+                    for (String s1 : value) {
+                        out += s1;
+                    }
+                }
+            }
+        }
+        System.out.println(out);
+        return out;
+    }
+
+    //整数反转
+    //给出一个 32 位的有符号整数，你需要将这个整数中每位上的数字进行反转。
+    public int reverse(int x) {
+        long count=0;
+        while(x!=0){
+            count=count*10+x%10;
+            x=x/10;
+        }
+        return count>2147483647||count<-2147483648?0: (int) count;
+    }
+
+   /* 给你 n 个非负整数 a1，a2，...，an，每个数代表坐标中的一个点 (i, ai) 。在坐标内画 n 条垂直线，垂直线 i 的两个端点分别为 (i, ai) 和 (i, 0)。找出其中的两条线，使得它们与 x 轴共同构成的容器可以容纳最多的水。
+
+    说明：你不能倾斜容器，且 n 的值至少为 2。*/
+    public int maxArea(int[] a) {
+        int max = 0;
+        for(int i = 0, j = a.length - 1; i < j ; ){
+            int minHeight = a[i] < a[j] ? a[i ++] : a[j --];
+            max = Math.max(max, (j - i + 1) * minHeight);
+        }
+        return max;
+    }
+
+    public static void main(String[] args) {
+        LeetCode leetCode = new LeetCode();
+        System.out.println(leetCode.reverse(1534236461));
     }
 }
