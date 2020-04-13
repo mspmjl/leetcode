@@ -1,5 +1,6 @@
 package leetcode;
 
+
 import java.util.*;
 
 /**
@@ -7,15 +8,15 @@ import java.util.*;
  */
 public class LeetCode {
     //  给定一个字符串 s，找到 s 中最长的回文子串。你可以假设 s 的最大长度为 1000。
-    public static String longestPalindrome(String s) {
+    public String longestPalindrome(String s) {
         if (s == null || s.length() == 0) {
             return "";
         }
         int len = 0;
         int start = 0, end = 0;
         for (int i = 0; i < s.length(); i++) {
-            int[] len1 = expandAroundCenter(s, i, i);
-            int[] len2 = expandAroundCenter(s, i, i + 1);
+            int[] len1 = expandAroundCenter(s, i, i); // 用来找出奇数回文 like abdbc
+            int[] len2 = expandAroundCenter(s, i, i + 1);// 用来找出偶数回文 like abbc
             if (len1[0] > len2[0] && len1[0] > len) {
                 len = len1[0];
                 start = len1[1];
@@ -29,7 +30,7 @@ public class LeetCode {
         return s.substring(start + 1, end);
     }
 
-    private static int[] expandAroundCenter(String s, int left, int right) {
+    private int[] expandAroundCenter(String s, int left, int right) {
         while (left >= 0 && right <= s.length() - 1 && s.charAt(left) == s.charAt(right)) {
             left--;
             right++;
@@ -88,17 +89,17 @@ public class LeetCode {
     输出: "LDREOEIIECIHNTSG"
     解释:
 
-    L     D     R
-    E   O E   I I
-    E C   I H   N
-    T     S     G */
+    0L     D     R
+    1E   5O E   I I
+    2E 4C   I H   N
+    3T     S     G */
     public String convert(String s, int numRows) {
         String out = "";
         if (numRows == 1) {
             return s;
         } else if (s != null) {
             Map<Integer, List<String>> map = new HashMap<>();
-            int cycle = numRows * 2 - 3;
+            int cycle = numRows * 2 - 3; // leetco numRows * 2 - 3 个一个循环
             Integer count = 0;
             for (int i = 0; i < s.length(); i++) {
                 int index = count < numRows ? count : cycle + 1 - count;
@@ -151,8 +152,38 @@ public class LeetCode {
         return max;
     }
 
+    // 编写一个函数来查找字符串数组中的最长公共前缀。
+    // 如果不存在公共前缀，返回空字符串 ""。
+    public String longestCommonPrefix(String[] strs) {
+        if (strs != null && strs.length > 0) {
+            String commonPrefix = strs[0];
+            for (String str : strs) {
+                commonPrefix = getCommonPrefix(str, commonPrefix);
+                if(commonPrefix == null)
+                    return null;
+            }
+            return commonPrefix;
+        }
+        return "";
+    }
+
+    public String getCommonPrefix(String s1, String s2) {
+        if (s1 != null && s2 != null) {
+            String commonPrefix = "";
+            int j = s1.length() >= s2.length() ? s2.length() : s1.length();
+            for (int i = 0; i < j; i++) {
+                if (s1.charAt(i) == s2.charAt(i)) {
+                    commonPrefix += s1.charAt(i);
+                } else {
+                    break;
+                }
+            }
+            return commonPrefix;
+        }
+        return "";
+    }
+
     public static void main(String[] args) {
         LeetCode leetCode = new LeetCode();
-        System.out.println(leetCode.reverse(1534236461));
     }
 }
