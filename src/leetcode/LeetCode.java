@@ -159,7 +159,7 @@ public class LeetCode {
             String commonPrefix = strs[0];
             for (String str : strs) {
                 commonPrefix = getCommonPrefix(str, commonPrefix);
-                if(commonPrefix == null)
+                if (commonPrefix == null)
                     return null;
             }
             return commonPrefix;
@@ -183,7 +183,56 @@ public class LeetCode {
         return "";
     }
 
+    /*给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
+    注意：答案中不可以包含重复的三元组。
+    示例：
+
+    给定数组 nums = [-1, 0, 1, 2, -1, -4]，
+
+    满足要求的三元组集合为：
+            [
+            [-1, 0, 1],
+            [-1, -1, 2]
+            ]*/
+    public List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        if (nums != null && nums.length > 2) {
+            Arrays.sort(nums);
+            for (int i = 0; i <= nums.length - 3; i++) {
+                // 和前一个i一样的话 就跳过 这样有可能含重复的
+                if (i > 0 && nums[i] == nums[i - 1]) {
+                    continue;
+                }
+                int j = i + 1;
+                int k = nums.length - 1;
+                while (j < k) {
+                    int sum = nums[i] + nums[j] + nums[k];
+                    if (sum == 0) {
+                        result.add(Arrays.asList(nums[i], nums[j], nums[k]));
+                        while (j < k && nums[j] == nums[j + 1]) {
+                            // 和 nums[i] 一样 去重
+                            j++;
+                        }
+                        while (j < k && nums[k] == nums[k - 1]) {
+                            // 和 nums[i] 一样 去重
+                            k--;
+                        }
+                        j++;
+                        k--;
+                    } else if (sum < 0) {
+                        j++;
+                    } else if (sum > 0) {
+                        k--;
+                    }
+                }
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
         LeetCode leetCode = new LeetCode();
+        List<List<Integer>> lists = leetCode.threeSum(new int[]{1, -1, -1, 0});
+        System.out.println(lists.toString());
     }
 }
