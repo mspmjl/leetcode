@@ -230,9 +230,37 @@ public class LeetCode {
         return result;
     }
 
+    /*给定一个包括 n 个整数的数组 nums 和 一个目标值 target。
+    找出 nums 中的三个整数，使得它们的和与 target 最接近。
+    返回这三个数的和。假定每组输入只存在唯一答案。*/
+    public int threeSumClosest(int[] nums, int target) {
+        if (nums == null || nums.length < 3)
+            return 0;
+        Arrays.sort(nums);
+        int result = nums[0] + nums[1] + nums[2];
+        int length = nums.length;
+        for (int i = 0; i < length - 2; i++) {
+            int start = i + 1, end = length - 1;
+            while (start < end) {
+                int sum = nums[i] + nums[start] + nums[end];
+                if (Math.abs(target - sum) <= Math.abs(target - result)) {
+                    result = sum;
+                }
+                if (sum < target) {
+                    start++;
+                } else if (sum > target) {
+                    end--;
+                } else {
+                    return sum;
+                }
+            }
+        }
+        return result;
+    }
+
+
+
     public static void main(String[] args) {
-        LeetCode leetCode = new LeetCode();
-        List<List<Integer>> lists = leetCode.threeSum(new int[]{1, -1, -1, 0});
-        System.out.println(lists.toString());
+        System.out.println('1'-'0');
     }
 }
